@@ -1,0 +1,5 @@
+LAMMPS (19 Nov 2024)
+log log_lammps_${N}_${dt}_${tau_T}
+log log_lammps_6_${dt}_${tau_T}
+log log_lammps_6_1e-3_${tau_T}
+log log_lammps_6_1e-3_0.1

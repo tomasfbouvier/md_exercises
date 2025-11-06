@@ -1,0 +1,231 @@
+
+
+units metal
+timestep 0.001
+boundary p p p
+
+lattice         diamond 5.43
+Lattice spacing in x,y,z = 5.43 5.43 5.43
+region          box block 0 ${N} 0 ${N} 0 ${N}
+region          box block 0 2 0 ${N} 0 ${N}
+region          box block 0 2 0 2 0 ${N}
+region          box block 0 2 0 2 0 2
+create_box      1 box
+Created orthogonal box = (0 0 0) to (10.86 10.86 10.86)
+  1 by 1 by 2 MPI processor grid
+create_atoms    1 box
+Created 64 atoms
+  using lattice units in orthogonal box = (0 0 0) to (10.86 10.86 10.86)
+  create_atoms CPU = 0.000 seconds
+
+timestep ${dt}
+timestep 0.01
+
+mass 1 28.0855
+labelmap atom 1 Si
+
+pair_style sw
+pair_coeff * * Si.sw Si
+Reading sw potential file Si.sw with DATE: 2007-06-11
+
+
+velocity all create ${temp} 4928459 mom yes rot yes dist gaussian
+velocity all create 300 4928459 mom yes rot yes dist gaussian
+
+variable t equal time
+#fix myhalt all halt 100 v_t >= 30.0 error continue
+
+#fix NVE all nve
+
+#run 10000000
+
+#unfix myhalt
+
+compute 1 all vacf
+
+thermo 100
+thermo_style	custom step time dt temp pe ke press vol #c_1[4]
+thermo_modify	line one flush yes format 1 "ec %8lu" flush yes
+
+
+fix NPT all npt temp ${temp} ${temp} ${tau_T} iso 0.0 0.0 1.0
+fix NPT all npt temp 300 ${temp} ${tau_T} iso 0.0 0.0 1.0
+fix NPT all npt temp 300 300 ${tau_T} iso 0.0 0.0 1.0
+fix NPT all npt temp 300 300 0.1 iso 0.0 0.0 1.0
+
+fix myhalt all halt 100 v_t >= 30.0 error continue
+
+run 10000000
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+
+- Type Label Framework: https://doi.org/10.1021/acs.jpcb.3c08419
+
+@Article{Gissinger24,
+ author = {Jacob R. Gissinger, Ilia Nikiforov, Yaser Afshar, Brendon Waters, Moon-ki Choi, Daniel S. Karls, Alexander Stukowski, Wonpil Im, Hendrik Heinz, Axel Kohlmeyer, and Ellad B. Tadmor},
+ title = {Type Label Framework for Bonded Force Fields in LAMMPS},
+ journal = {J. Phys. Chem. B},
+ year =    2024,
+ volume =  128,
+ number =  13,
+ pages =   {3282--3297}
+}
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 5.77118
+  ghost atom cutoff = 5.77118
+  binsize = 2.88559, bins = 4 4 4
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair sw, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 3.57 | 3.57 | 3.57 Mbytes
+   Step          Time            Dt            Temp          PotEng         KinEng         Press          Volume    
+ec        0  0              0.01           300           -277.54229      2.4430167      2569.8731      1280.8241    
+ec      100  1              0.01           216.14022     -273.86965      1.7601139      1838.2525      1284.3756    
+ec      200  2              0.01           237.80508     -274.40403      1.9365393      4062.1248      1281.8263    
+ec      300  3              0.01           375.50031     -275.17799      3.0578452      965.29789      1286.0909    
+ec      400  4              0.01           330.95506     -274.86879      2.6950958     -4493.0004      1292.8423    
+ec      500  5              0.01           338.97797     -274.65429      2.7604295     -6591.6325      1296.0619    
+ec      600  6              0.01           260.57889     -274.60655      2.1219953     -6367.9404      1293.9496    
+ec      700  7              0.01           353.67238     -275.53711      2.8800918     -2107.0082      1289.3878    
+ec      800  8              0.01           270.5716      -274.36231      2.2033698     -958.33035      1288.0028    
+ec      900  9              0.01           291.88563     -274.76967      2.3769383     -935.57811      1286.8472    
+ec     1000  10             0.01           412.84192     -274.56996      3.3619324      4654.3388      1282.5853    
+ec     1100  11             0.01           295.84397     -274.66982      2.4091726      9699.1206      1274.2782    
+ec     1200  12             0.01           358.21922     -274.38975      2.9171185      10904.843      1274.2497    
+ec     1300  13             0.01           312.91184     -274.49397      2.5481629      4722.3061      1281.0266    
+ec     1400  14             0.01           290.0132      -274.79354      2.3616904      1237.1875      1284.7761    
+ec     1500  15             0.01           354.09489     -274.38949      2.8835325      726.60828      1287.0373    
+ec     1600  16             0.01           283.86822     -274.62157      2.3116494     -3178.0067      1290.19      
+ec     1700  17             0.01           348.29066     -274.12714      2.8362664     -8902.4044      1300.0351    
+ec     1800  18             0.01           313.10412     -274.78607      2.5497287     -12208.061      1302.6051    
+ec     1900  19             0.01           270.59428     -274.15765      2.2035545     -6934.473       1295.3885    
+ec     2000  20             0.01           303.3551      -274.61507      2.4703386     -1901.2903      1289.5417    
+ec     2100  21             0.01           312.21179     -274.69716      2.5424621     -6.0208979      1286.8727    
+ec     2200  22             0.01           283.9883      -274.32145      2.3126273      5268.1253      1280.9329    
+ec     2300  23             0.01           253.91732     -274.54147      2.0677475      13804.467      1269.2433    
+ec     2400  24             0.01           324.54698     -274.6249       2.6429124      8609.1766      1276.0583    
+ec     2500  25             0.01           273.88484     -274.91982      2.2303508      4819.3235      1280.438     
+ec     2600  26             0.01           267.46069     -274.0836       2.1780365      1574.2268      1284.9846    
+ec     2700  27             0.01           310.71719     -274.56136      2.530291      -550.11562      1288.2095    
+ec     2800  28             0.01           273.46883     -274.48999      2.2269631     -10795.559      1300.7868    
+ec     2900  29             0.01           351.19285     -274.18833      2.8599        -9825.7436      1300.1131    
+Fix halt condition for fix-id myhalt met on step 3000 with value 30 (../fix_halt.cpp:240)
+ec     3000  30             0.01           271.25378     -274.28451      2.2089251     -6398.4849      1295.584     
+Loop time of 0.126763 on 2 procs for 3000 steps with 64 atoms
+
+Performance: 20447.677 ns/day, 0.001 hours/ns, 23666.292 timesteps/s, 1.515 Matom-step/s
+99.4% CPU use with 2 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.090907   | 0.091822   | 0.092737   |   0.3 | 72.44
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.022641   | 0.023522   | 0.024402   |   0.6 | 18.56
+Output  | 0.00025911 | 0.0004207  | 0.0005823  |   0.0 |  0.33
+Modify  | 0.0085964  | 0.0088194  | 0.0090425  |   0.2 |  6.96
+Other   |            | 0.002179   |            |       |  1.72
+
+Nlocal:             32 ave          32 max          32 min
+Histogram: 2 0 0 0 0 0 0 0 0 0
+Nghost:            444 ave         444 max         444 min
+Histogram: 2 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 2 0 0 0 0 0 0 0 0 0
+FullNghs:         1088 ave        1088 max        1088 min
+Histogram: 2 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 2176
+Ave neighs/atom = 34
+Neighbor list builds = 0
+Dangerous builds = 0
+
+unfix myhalt
+
+fix myhalt all halt 100 v_t >= 60.0 error continue
+
+unfix NPT
+
+fix NVT all nvt temp ${temp} ${temp} ${tau_T}
+fix NVT all nvt temp 300 ${temp} ${tau_T}
+fix NVT all nvt temp 300 300 ${tau_T}
+fix NVT all nvt temp 300 300 0.1
+
+run 10000000
+Per MPI rank memory allocation (min/avg/max) = 3.57 | 3.57 | 3.57 Mbytes
+   Step          Time            Dt            Temp          PotEng         KinEng         Press          Volume    
+ec     3000  30             0.01           271.25378     -274.28451      2.2089251     -6398.4849      1295.584     
+ec     3100  31             0.01           335.32644     -274.64325      2.7306937     -6580.6627      1295.584     
+ec     3200  32             0.01           334.27375     -274.77698      2.7221212     -6395.144       1295.584     
+ec     3300  33             0.01           305.25092     -274.38041      2.485777      -6556.7479      1295.584     
+ec     3400  34             0.01           263.70356     -274.59038      2.1474407     -7152.1008      1295.584     
+ec     3500  35             0.01           259.53894     -274.60099      2.1135266     -7025.2594      1295.584     
+ec     3600  36             0.01           316.07913     -274.27605      2.5739554     -6432.874       1295.584     
+ec     3700  37             0.01           325.32582     -274.51698      2.6492547     -6394.9987      1295.584     
+ec     3800  38             0.01           248.9833      -274.55071      2.0275679     -7244.3402      1295.584     
+ec     3900  39             0.01           286.79864     -274.95502      2.335513      -7138.7553      1295.584     
+ec     4000  40             0.01           297.14488     -274.41988      2.4197664     -6772.3538      1295.584     
+ec     4100  41             0.01           262.05739     -275.00966      2.1340353     -7454.4016      1295.584     
+ec     4200  42             0.01           313.87574     -274.93175      2.5560123     -6850.6791      1295.584     
+ec     4300  43             0.01           307.90688     -273.77211      2.5074055     -6219.2246      1295.584     
+ec     4400  44             0.01           316.9241      -274.75068      2.5808363     -6794.553       1295.584     
+ec     4500  45             0.01           267.05457     -274.539        2.1747293     -6909.0597      1295.584     
+ec     4600  46             0.01           325.7697      -274.48625      2.6528695     -6171.195       1295.584     
+ec     4700  47             0.01           263.08026     -274.42478      2.1423649     -6408.4637      1295.584     
+ec     4800  48             0.01           275.19184     -274.50976      2.2409942     -6727.4019      1295.584     
+ec     4900  49             0.01           301.77846     -274.56939      2.4574994     -6433.1715      1295.584     
+ec     5000  50             0.01           293.49485     -274.83137      2.3900427     -7193.495       1295.584     
+ec     5100  51             0.01           331.13615     -274.44635      2.6965705     -6101.1413      1295.584     
+ec     5200  52             0.01           304.61441     -274.72764      2.4805937     -6797.7747      1295.584     
+ec     5300  53             0.01           299.65232     -275.04213      2.4401854     -7362.3062      1295.584     
+ec     5400  54             0.01           291.62566     -274.87199      2.3748212     -6910.0176      1295.584     
+ec     5500  55             0.01           308.68685     -274.29907      2.5137571     -6465.6385      1295.584     
+ec     5600  56             0.01           306.68499     -274.77581      2.4974552     -6570.0976      1295.584     
+ec     5700  57             0.01           303.29848     -274.56013      2.4698776     -6426.8811      1295.584     
+ec     5800  58             0.01           334.61791     -274.29573      2.7249238     -6084.1773      1295.584     
+ec     5900  59             0.01           301.80567     -274.67642      2.457721      -6875.5251      1295.584     
+Fix halt condition for fix-id myhalt met on step 6000 with value 60 (../fix_halt.cpp:240)
+ec     6000  60             0.01           304.83375     -273.89884      2.4823799     -6357.6916      1295.584     
+Loop time of 0.111474 on 2 procs for 3000 steps with 64 atoms
+
+Performance: 23252.116 ns/day, 0.001 hours/ns, 26912.171 timesteps/s, 1.722 Matom-step/s
+100.0% CPU use with 2 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.079981   | 0.080455   | 0.080929   |   0.2 | 72.17
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.024792   | 0.025215   | 0.025637   |   0.3 | 22.62
+Output  | 0.00026155 | 0.0004201  | 0.00057865 |   0.0 |  0.38
+Modify  | 0.0031458  | 0.0031706  | 0.0031954  |   0.0 |  2.84
+Other   |            | 0.002214   |            |       |  1.99
+
+Nlocal:             32 ave          32 max          32 min
+Histogram: 2 0 0 0 0 0 0 0 0 0
+Nghost:            444 ave         444 max         444 min
+Histogram: 2 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 2 0 0 0 0 0 0 0 0 0
+FullNghs:         1099 ave        1101 max        1097 min
+Histogram: 1 0 0 0 0 0 0 0 0 1
+
+Total # of neighbors = 2198
+Ave neighs/atom = 34.34375
+Neighbor list builds = 0
+Dangerous builds = 0
+
+write_data cell.data_${temp}
+write_data cell.data_300
+System init for write_data ...
+Total wall time: 0:00:00

@@ -1,0 +1,153 @@
+
+
+units metal
+timestep 0.001
+boundary p p p
+
+lattice         diamond 5.43
+Lattice spacing in x,y,z = 5.43 5.43 5.43
+region          box block 0 ${N} 0 ${N} 0 ${N}
+region          box block 0 4 0 ${N} 0 ${N}
+region          box block 0 4 0 4 0 ${N}
+region          box block 0 4 0 4 0 4
+create_box      1 box
+Created orthogonal box = (0 0 0) to (21.72 21.72 21.72)
+  1 by 1 by 2 MPI processor grid
+create_atoms    1 box
+Created 512 atoms
+  using lattice units in orthogonal box = (0 0 0) to (21.72 21.72 21.72)
+  create_atoms CPU = 0.001 seconds
+
+timestep ${dt}
+timestep 0.01
+
+mass 1 28.0855
+labelmap atom 1 Si
+
+pair_style sw
+pair_coeff * * Si.sw Si
+Reading sw potential file Si.sw with DATE: 2007-06-11
+
+thermo 100
+thermo_style	custom step time dt temp pe ke press vol
+thermo_modify	line one flush yes format 1 "ec %8lu" flush yes
+
+
+velocity all create 300.0 4928459 mom yes rot yes dist gaussian
+
+variable t equal time
+fix myhalt all halt 100 v_t >= 30.0 error continue
+
+fix NVE all nve
+
+run 10000000
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+
+- Type Label Framework: https://doi.org/10.1021/acs.jpcb.3c08419
+
+@Article{Gissinger24,
+ author = {Jacob R. Gissinger, Ilia Nikiforov, Yaser Afshar, Brendon Waters, Moon-ki Choi, Daniel S. Karls, Alexander Stukowski, Wonpil Im, Hendrik Heinz, Axel Kohlmeyer, and Ellad B. Tadmor},
+ title = {Type Label Framework for Bonded Force Fields in LAMMPS},
+ journal = {J. Phys. Chem. B},
+ year =    2024,
+ volume =  128,
+ number =  13,
+ pages =   {3282--3297}
+}
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 5.77118
+  ghost atom cutoff = 5.77118
+  binsize = 2.88559, bins = 8 8 8
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair sw, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 3.237 | 3.237 | 3.237 Mbytes
+   Step          Time            Dt            Temp          PotEng         KinEng         Press          Volume    
+ec        0  0              0.01           300           -2220.3383      19.81558       2598.169       10246.592    
+ec      100  1              0.01           161.05282     -2209.128       10.63785       2776.6831      10246.592    
+ec      200  2              0.01           153.74276     -2208.5554      10.155006      2810.0341      10246.592    
+ec      300  3              0.01           160.31776     -2209.0762      10.589298      2846.9506      10246.592    
+ec      400  4              0.01           148.81272     -2208.2615      9.8293682      2735.9389      10246.592    
+ec      500  5              0.01           164.62253     -2209.4807      10.873636      2638.0027      10246.592    
+ec      600  6              0.01           166.54041     -2209.5413      11.000316      2658.065       10246.592    
+ec      700  7              0.01           151.24593     -2208.5718      9.9900863      2520.4513      10246.592    
+ec      800  8              0.01           157.13379     -2208.8395      10.378991      2721.2983      10246.592    
+ec      900  9              0.01           144.06833     -2207.9659      9.5159917      2577.0509      10246.592    
+ec     1000  10             0.01           140.21097     -2207.8009      9.2612055      2539.6571      10246.592    
+ec     1100  11             0.01           158.60418     -2209.0018      10.476113      2723.9519      10246.592    
+ec     1200  12             0.01           156.11946     -2208.8793      10.311992      2551.097       10246.592    
+ec     1300  13             0.01           161.8797      -2209.1444      10.692467      2715.6734      10246.592    
+ec     1400  14             0.01           146.76768     -2208.0673      9.6942893      2655.3178      10246.592    
+ec     1500  15             0.01           151.16063     -2208.3663      9.9844519      2716.1886      10246.592    
+ec     1600  16             0.01           142.36502     -2207.6496      9.4034846      2797.5634      10246.592    
+ec     1700  17             0.01           157.0964      -2208.8462      10.376521      2745.9707      10246.592    
+ec     1800  18             0.01           154.11548     -2208.8183      10.179625      2562.2946      10246.592    
+ec     1900  19             0.01           171.55281     -2210.024       11.331395      2683.3452      10246.592    
+ec     2000  20             0.01           146.41209     -2208.0927      9.6708017      2605.9556      10246.592    
+ec     2100  21             0.01           153.4088      -2208.6141      10.132948      2707.1776      10246.592    
+ec     2200  22             0.01           155.61758     -2208.7631      10.278842      2720.2526      10246.592    
+ec     2300  23             0.01           147.75956     -2208.1782      9.759805       2636.1048      10246.592    
+ec     2400  24             0.01           147.89299     -2208.187       9.7686178      2662.8826      10246.592    
+ec     2500  25             0.01           144.88847     -2207.9558      9.5701638      2642.199       10246.592    
+ec     2600  26             0.01           146.14846     -2208.0932      9.6533885      2605.3035      10246.592    
+ec     2700  27             0.01           148.06797     -2208.2311      9.780176       2643.5481      10246.592    
+ec     2800  28             0.01           157.14434     -2208.8432      10.379688      2761.9379      10246.592    
+ec     2900  29             0.01           135.78849     -2207.2941      8.9690926      2579.6566      10246.592    
+Fix halt condition for fix-id myhalt met on step 3000 with value 30 (../fix_halt.cpp:240)
+ec     3000  30             0.01           151.27033     -2208.5694      9.9916976      2598.8785      10246.592    
+Loop time of 0.650132 on 2 procs for 3000 steps with 512 atoms
+
+Performance: 3986.886 ns/day, 0.006 hours/ns, 4614.451 timesteps/s, 2.363 Matom-step/s
+97.8% CPU use with 2 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.58373    | 0.58582    | 0.58791    |   0.3 | 90.11
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.050567   | 0.052545   | 0.054524   |   0.9 |  8.08
+Output  | 0.00025163 | 0.00051863 | 0.00078564 |   0.0 |  0.08
+Modify  | 0.0051204  | 0.0051765  | 0.0052326  |   0.1 |  0.80
+Other   |            | 0.006073   |            |       |  0.93
+
+Nlocal:            256 ave         256 max         256 min
+Histogram: 2 0 0 0 0 0 0 0 0 0
+Nghost:           1081 ave        1081 max        1081 min
+Histogram: 2 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 2 0 0 0 0 0 0 0 0 0
+FullNghs:         8704 ave        8704 max        8704 min
+Histogram: 2 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 17408
+Ave neighs/atom = 34
+Neighbor list builds = 0
+Dangerous builds = 0
+
+unfix myhalt
+
+fix NPT all npt temp 300 300 ${tau_T} iso 0.0 0.0 1.0
+fix NPT all npt temp 300 300 0.1 iso 0.0 0.0 1.0
+
+
+
+fix myhalt all halt 100 v_t >= 60.0 error continue
+
+run 10000000
+WARNING: One or more atoms are time integrated more than once (../modify.cpp:296)
+Per MPI rank memory allocation (min/avg/max) = 3.237 | 3.237 | 3.237 Mbytes
+   Step          Time            Dt            Temp          PotEng         KinEng         Press          Volume    
+ec     3000  30             0.01           151.27033     -2208.5694      9.9916976      2598.8785      10246.592    
+ERROR: Lost atoms: original 512 current 484 (../thermo.cpp:494)
+Last command: run 10000000

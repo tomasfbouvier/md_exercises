@@ -1,0 +1,49 @@
+log log_lammps_${N}_${dt}_${tau_T}
+
+
+units metal
+timestep 0.001
+boundary p p p
+
+lattice         diamond 5.43
+region          box block 0 ${N} 0 ${N} 0 ${N}
+create_box      1 box
+create_atoms    1 box
+
+timestep ${dt} 
+
+mass 1 28.0855
+labelmap atom 1 Si 
+
+pair_style sw
+pair_coeff * * Si.sw Si
+
+
+velocity all create ${temp} 4928459 mom yes rot yes dist gaussian
+
+variable t equal time
+
+compute 1 all vacf 
+
+thermo 100
+thermo_style	custom step time dt temp pe ke press vol c_1[4]
+thermo_modify	line one flush yes format 1 "ec %8lu" flush yes
+
+
+fix NPT all npt temp ${temp} ${temp} ${tau_T} iso 0.0 0.0 1.0
+
+fix myhalt all halt 100 v_t >= 30.0 error continue
+
+run 10000000
+
+unfix myhalt
+
+fix myhalt all halt 100 v_t >= 60.0 error continue
+
+unfix NPT
+
+fix NVT all nvt temp ${temp} ${temp} ${tau_T}
+
+run 10000000
+
+write_data cell.data_${temp}
