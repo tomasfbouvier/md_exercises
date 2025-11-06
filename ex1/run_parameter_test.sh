@@ -1,5 +1,4 @@
 #!/bin/bash
-# Run LAMMPS while varying one variable at a time (no nested loops)
 
 NP=2
 INPUT="in.parameter_test"
