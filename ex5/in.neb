@@ -12,7 +12,7 @@ pair_coeff	* * SiC.edip Si C
 #group frozen id 40:50
 #fix freeze frozen setforce 0.0 0.0 0.0
 
-fix 1 all neb 1.0 
+fix 1 all neb 0.1
 fix 2 all momentum 1 linear 1 1 1 angular
 
 dump            1 all custom 20000 ${dump_file}.$u id type x y z
@@ -20,7 +20,7 @@ dump_modify     1 first no
 #dump_modify     1 element Si C
 
 min_style       quickmin
-min_modify	dmax 0.01
+min_modify	dmax 0.001
 
 #fix 3 all box/relax iso 0.0 
 neb 1e-7 1e-8 20000 20000 100 final final.data #terse

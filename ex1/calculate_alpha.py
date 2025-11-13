@@ -30,6 +30,7 @@ delta_L = (np.array(lengths) - L300)/L300
 # Linear fit
 slope, intercept = np.polyfit(delta_T, delta_L, 1)
 
+plt.figure(figsize=(8,4))
 # Plot
 plt.plot(delta_T, delta_L, "o")
 plt.plot(delta_T, slope*delta_T + intercept, "-")

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NP=2
-INPUT="in.parameter_test"
+INPUT="in.script"
 
 # --- Baseline values ---
 BASE_dt=0.001
